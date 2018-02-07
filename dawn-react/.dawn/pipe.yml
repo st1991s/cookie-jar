@@ -1,0 +1,50 @@
+init:
+  - name: tnpm-install
+  - name: pkginfo
+
+dev:
+  - name: clean
+  - name: faked
+    port: 9001
+  - name: webpack2
+    common:
+      disabled: true
+    compress: false
+    entry: ./src/scripts/*.js
+    template: ./src/*.html
+    folders:
+      js: scripts
+    sourceMap: false
+    loose: true
+    watch: true
+  - name: server
+    port: 3001
+  #- $require ./lang.yml
+
+build:
+  - name: clean
+  - name: webpack2
+    common:
+      disabled: true
+    compress: true
+    entry: ./src/scripts/*.js
+    template: ./src/*.html
+    folders:
+      js: scripts
+    sourceMap: false
+    loose: true
+  #- $require ./lang.yml
+
+test:
+  - name: lint
+
+publish:
+  - name: shell
+    script:
+      - dn test
+  - name: alicdn-publish
+    build:
+      name: shell
+      script:
+        - dn build -e prod
+  - name: alicdn-check

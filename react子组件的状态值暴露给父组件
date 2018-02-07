@@ -1,0 +1,76 @@
+react子组件向父组件传值有两种方法，
+
+第一种方法，子组件中写一个func（比如refGetData）把需要暴露的值return出去,在父组件中用 ref属性，获得子组件的实例，调用
+refGetData即可获得值。代码如下：
+子组件:
+class Child extends Component {
+  constructor() {
+    super();
+    this.state = {
+      checked: false
+    }
+  }
+  refGetData(){
+    return this.state.checked;    // false
+  }
+
+  render() {
+    return (
+        <div>
+            xxx 伪代码
+      </div>
+    );
+  }
+}
+
+父组件：
+class Father extends Component {
+
+  submit(){
+    console.log(this.child.refGetData)       // false
+  }
+
+  render() {
+    return (
+        <div>
+            <Child ref={(c) => {this.child = c;}}  {…props}  />
+      </div>
+    );
+  }
+}
+
+
+第二种方法：在父组件中给一个回调函数的属性，在子组件中从props取出，把值传递回去，代码如下：
+
+父组件：
+class Father extends Component {
+
+  render() {
+    return (
+        <div>
+            <Child onChange={ (val) => {console.log(val)}}  {…props}  />
+      </div>
+    );
+  }
+}
+
+子组件：
+
+class Child extends Component {
+
+click(){
+const {onChange} = this.props;
+ ‘xxx伪代码’；
+onChange && onChange(val);
+}
+
+  render() {
+    return (
+        <div>
+            xxx 伪代码
+      </div>
+    );
+  }
+}
+
+两种方法中更推荐第二种写法。

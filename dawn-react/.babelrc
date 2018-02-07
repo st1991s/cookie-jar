@@ -1,0 +1,3 @@
+{
+  "plugins": ["@ali/babel-plugin-next"]
+}
